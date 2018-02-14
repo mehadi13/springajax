@@ -18,7 +18,7 @@ public class EmployeeService {
 		return employeeRepository.findAll();
 	}
 	
-	public Employee getOne(int id) {
+	public Employee getOne(long id) {
 		return employeeRepository.findOne(id);
 	}
 	
@@ -26,7 +26,7 @@ public class EmployeeService {
 		employeeRepository.save(employee);
 	}
 	
-	public void delete(int id){
+	public void delete(long id){
 		employeeRepository.delete(id);
 	}
 

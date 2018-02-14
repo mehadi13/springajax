@@ -1,4 +1,4 @@
-package com.bjit.training.springajax.controller;
+package com.bjit.training.springajax.api;
 
 import java.util.List;
 import java.util.Map;
@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,38 +18,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.bjit.training.springajax.EmployeeJsonRespone;
 import com.bjit.training.springajax.model.Employee;
 import com.bjit.training.springajax.service.EmployeeService;
 
-
-@Controller
-@RequestMapping("/employees")
-public class EmployeeController {
+@RestController
+@RequestMapping("/api/employees")
+public class EmployeeRestController {
 	
 	@Autowired
 	private EmployeeService employeeService;
 	
 	@GetMapping
-    public String index() {
+    public List<Employee> index() {
     	System.out.println("Index");
-    	//List<Employee> ls = employeeService.getAll();
-        return "employees/index";
+    	return employeeService.getAll();
     }
 
     @GetMapping("{id}")
-    public String show(@PathVariable int id) {
+    public Employee show(@PathVariable long id) {
     	System.out.println("show");
-    	//Employee employee = employeeService.getOne(id);
-        return "employees/show";
-    }
-    
-    
-    @GetMapping("/create")
-    public String create() {
-    	System.out.println("create");
-    	return "employees/create";
+    	return employeeService.getOne(id);
     }
 
     @PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -69,12 +59,6 @@ public class EmployeeController {
 		}
 		return respone;
 	}
-    
-    @GetMapping("{id}/edit")
-    public String edit() {
-    	System.out.println("edit");
-    	return "employees/edit";
-    }
 
     @PostMapping("{id}")
     public String update(@PathVariable int id,@RequestBody Employee employee) {
