@@ -59,8 +59,6 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 			});
 		});
 
-		
-
 		function loaded(data){
 			console.log( "JSON Data: " + data.firstName );
 			$("#employeeList ul").append('<li>'+data.firstName+' '+data.id+'</li>');

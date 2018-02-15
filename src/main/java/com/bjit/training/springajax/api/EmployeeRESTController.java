@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,7 +27,7 @@ import com.bjit.training.springajax.service.EmployeeService;
 
 @RestController
 @RequestMapping("/api/employees")
-public class EmployeeRestController {
+public class EmployeeRESTController {
 	
 	@Autowired
 	private EmployeeService employeeService;
@@ -42,29 +43,17 @@ public class EmployeeRestController {
     	System.out.println("show");
     	return employeeService.getOne(id);
     }
+    
+    @PostMapping
+    public Employee store(@RequestBody Employee employee){
+    	System.out.println("store");
+    	return employeeService.save(employee);
+    }
 
-    @PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	@ResponseBody
-    public EmployeeJsonRespone store(@ModelAttribute @Valid Employee employee, BindingResult result) {
-		System.out.println("asdf asd f asf");
-    	EmployeeJsonRespone respone = new EmployeeJsonRespone();
-		if (result.hasErrors()) { // Get error message
-			Map<String, String> errors = result.getFieldErrors().stream()
-					.collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
-			respone.setValidated(false);
-			respone.setErrorMessages(errors);
-		} else {
-			respone.setValidated(true);
-			respone.setEmployee(employee);
-		}
-		return respone;
-	}
-
-    @PostMapping("{id}")
-    public String update(@PathVariable int id,@RequestBody Employee employee) {
+    @PutMapping("{id}")
+    public Employee update(@PathVariable int id,@RequestBody Employee employee) {
     	System.out.println("update");
-    	employeeService.save(employee);
-    	return "redirect:create";
+    	return employeeService.save(employee);
     }
 
    @DeleteMapping("{id}")
