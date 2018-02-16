@@ -35,58 +35,6 @@ public class EmployeeController {
 	@GetMapping
     public String index() {
     	System.out.println("Index");
-    	//List<Employee> ls = employeeService.getAll();
         return "employees/index";
     }
-
-    @GetMapping("{id}")
-    public String show(@PathVariable int id) {
-    	System.out.println("show");
-    	//Employee employee = employeeService.getOne(id);
-        return "employees/show";
-    }
-    
-    
-    @GetMapping("/create")
-    public String create() {
-    	System.out.println("create");
-    	return "employees/create";
-    }
-
-    @PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	@ResponseBody
-    public EmployeeJsonRespone store(@ModelAttribute @Valid Employee employee, BindingResult result) {
-		System.out.println("asdf asd f asf");
-    	EmployeeJsonRespone respone = new EmployeeJsonRespone();
-		if (result.hasErrors()) { // Get error message
-			Map<String, String> errors = result.getFieldErrors().stream()
-					.collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
-			respone.setValidated(false);
-			respone.setErrorMessages(errors);
-		} else {
-			respone.setValidated(true);
-			respone.setEmployee(employee);
-		}
-		return respone;
-	}
-    
-    @GetMapping("{id}/edit")
-    public String edit() {
-    	System.out.println("edit");
-    	return "employees/edit";
-    }
-
-    @PostMapping("{id}")
-    public String update(@PathVariable int id,@RequestBody Employee employee) {
-    	System.out.println("update");
-    	employeeService.save(employee);
-    	return "redirect:create";
-    }
-
-   @DeleteMapping("{id}")
-    public void delete(@PathVariable int id) {
-    	System.out.println("delete");
-    	employeeService.delete(id);
-    }
-
 }

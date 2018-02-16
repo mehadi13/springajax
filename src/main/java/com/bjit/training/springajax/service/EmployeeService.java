@@ -3,6 +3,8 @@ package com.bjit.training.springajax.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bjit.training.springajax.model.Employee;
@@ -14,8 +16,11 @@ public class EmployeeService {
 	@Autowired
 	EmployeeRepository employeeRepository;
 	
-	public List<Employee> getAll(){
-		return employeeRepository.findAll();
+	private final int objSize=1;
+	
+	public List<Employee> getAll(Integer page){
+		Pageable pageable = new PageRequest(page, objSize);
+		return employeeRepository.findAll(pageable).getContent();
 	}
 	
 	public Employee getOne(long id) {

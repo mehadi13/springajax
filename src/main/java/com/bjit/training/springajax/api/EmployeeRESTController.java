@@ -1,30 +1,18 @@
 package com.bjit.training.springajax.api;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.bjit.training.springajax.EmployeeJsonRespone;
 import com.bjit.training.springajax.model.Employee;
 import com.bjit.training.springajax.service.EmployeeService;
-
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeRESTController {
@@ -33,9 +21,9 @@ public class EmployeeRESTController {
 	private EmployeeService employeeService;
 	
 	@GetMapping
-    public List<Employee> index() {
+    public List<Employee> index(@RequestParam(defaultValue="1") Integer page) {
     	System.out.println("Index");
-    	return employeeService.getAll();
+    	return employeeService.getAll(page);
     }
 
     @GetMapping("{id}")
